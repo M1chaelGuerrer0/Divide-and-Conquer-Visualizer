@@ -1,8 +1,8 @@
-/* TO TEST:
-        - Open Terminal
-            - type node script.js
-            - press enter
-*/
+// snapshot
+var snap = ""; // global variable
+function snapshot(array, lo, mid, hi) {
+    snap += `List: ${array.slice(lo, hi+1)}\nlo: ${lo}, mid: ${mid}, hi: ${hi}\n`;
+}
 
 // binary search function
 function binarySearch(array, key, lo, hi) {
@@ -13,7 +13,7 @@ function binarySearch(array, key, lo, hi) {
 
     // middle calculation
     mid = Math.floor((lo + hi) / 2);
-
+    snapshot(array, lo, mid, hi);
     // comparisons
     if(array[mid] == key) {
         return mid;
@@ -28,9 +28,15 @@ function binarySearch(array, key, lo, hi) {
 
 // wrapper function
 function binarySearchWrapper(){
+    // string
     const temp = document.getElementById('array').value;
+    // array from string
     const array = temp.split(',').map(Number);
+    // key
     const key = document.getElementById('key').value;
+    
     result = binarySearch(array, key, 0, array.length - 1);
-    document.getElementById('result').textContent = result;
+    document.getElementById('snapshot').textContent = snap;
+    snap = "";
+    document.getElementById('result').textContent = "index: " +result;
 }
