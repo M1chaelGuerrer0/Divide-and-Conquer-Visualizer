@@ -7,6 +7,10 @@ Plan on doing Binary Search and Merge Sort.
   * error for none integers or format issues
   * basic visual steps
 * Merge Sort: 
+  * working 
+  * print result 
 
 ## TO DO:
 * Merge Sort
+  * snapshot
+  * more visuals
