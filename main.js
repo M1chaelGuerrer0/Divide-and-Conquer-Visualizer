@@ -1,3 +1,5 @@
+// ============ Binary Search =============
+
 // snapshotBS:
 //     Stores the steps taken
 var snap = ""; 
@@ -172,5 +174,90 @@ function binarySearchWrapper(){
             ${msg}
         </div>
     `;
+}
+// ========= End of Binary Search ==========
+
+// merge
+function merge(array, left, mid, right) {
+    const size1 = mid - left + 1;
+    const size2 = right - mid;
+
+    const L = new Array(size1);
+    const R = new Array(size2);
+
+    // copy arrays
+    for(let i = 0; i < size1; i++) {
+        L[i] = array[left+i];
+    }
+    for(let j = 0; j < size2; j++) {
+        R[j] = array[mid + 1 + j]
+    }
+
+    // merging the 2 copy arrays back into original
+    let i=0, j=0;
+    let k = left;
+    while(i < size1 && j < size2) {
+        if(L[i] <= R[j]) {
+            array[k] = L[i];
+            i++;
+        }
+        else {
+            array[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // remaining elements
+    while(i < size1) {
+        array[k] = L[i];
+        i++;
+        k++;
+    }
+    while(j < size2) {
+        array[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+// mergeSort
+function mergeSort(array, left, right) {
+    if(left >= right) return;
+
+    const mid = Math.floor(left + (right-left) / 2);
+    mergeSort(array, left, mid);
+    mergeSort(array, mid + 1, right);
+    merge(array, left, mid, right);
+}
+
+function mergeSortWrapper(){
+    const array_string = document.getElementById('array').value.split(',').map(str => str.trim());
+
+    // Check if all array elements are integers
+    const arrayIntegers = array_string.every(item => /^-?\d+$/.test(item));
+    if (!arrayIntegers) {
+        document.getElementById('result').innerHTML = `
+            <div style="
+                color: red;
+                font-size: 22px;
+                font-family: Arial, sans-serif;
+                font-weight: bold;
+                margin-top: 10px;
+            ">
+                Error: Array must contain only integers, separated by commas.
+            </div>
+        `;
+        document.getElementById('snapshot').innerHTML = "";
+        snap = "";
+        return;
+    }
+
+    // Convert array to actual integers
+    const array = array_string.map(Number);
+    
+    mergeSort(array, 0, array.length-1);
+    const result = array.join(" ")
+    document.getElementById('result').textContent = result;
 }
 
