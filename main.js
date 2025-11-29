@@ -1,7 +1,5 @@
 // ============ Binary Search =============
-
-// snapshotBS:
-//     Stores the steps taken
+// snapshotBS: imple snapshot for binary search
 var snap = ""; 
 function snapshotBS(array, lo, mid, hi, found = false) {
     const cellWidth = 56;
@@ -177,64 +175,124 @@ function binarySearchWrapper(){
 }
 // ========= End of Binary Search ==========
 
-// merge
-function merge(array, left, mid, right) {
-    const size1 = mid - left + 1;
-    const size2 = right - mid;
+// =============== Merge Sort ===============
 
-    const L = new Array(size1);
-    const R = new Array(size2);
+// snapshotMS: imple snapshot for merge sort
+var snapMS = "";
+function snapshotMS(arrays, step = "") {
+    const cellWidth = 45;
+    const cellPadding = 6;
+    const gap = 2;
 
-    // copy arrays
-    for(let i = 0; i < size1; i++) {
-        L[i] = array[left+i];
+    snapMS += `<div style="margin-bottom:20px; text-align:center;">`;
+
+    // step description
+    if (step) {
+        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#333; font-weight:bold;">${step}</div>`;
     }
-    for(let j = 0; j < size2; j++) {
-        R[j] = array[mid + 1 + j]
-    }
 
-    // merging the 2 copy arrays back into original
-    let i=0, j=0;
-    let k = left;
-    while(i < size1 && j < size2) {
-        if(L[i] <= R[j]) {
-            array[k] = L[i];
-            i++;
+    // container
+    snapMS += `<div style="display:flex; justify-content:center; gap:30px; align-items:flex-start;">`;
+    
+    arrays.forEach((array, index) => {
+        if (array.length > 0) { // Only show non-empty arrays
+            snapMS += `<div style="display:flex; flex-direction:column; align-items:center;">`;
+            
+            // Array label (Left/Right)
+            if (arrays.length > 1) {
+                const label = index === 0 ? "Left" : "Right";
+                snapMS += `<div style="font-size:14px; margin-bottom:5px; color:#666;">${label}</div>`;
+            }
+            
+            // ARRAY ROW
+            snapMS += `<div style="display:flex;">`;
+            array.forEach(value => {
+                snapMS += `
+                    <div style="
+                        width:${cellWidth}px;
+                        padding:${cellPadding}px 0;
+                        margin-right:${gap}px;
+                        border:2px solid #333;
+                        border-radius:4px;
+                        text-align:center;
+                        font-size:16px;
+                        font-family:Arial, sans-serif;
+                        background-color:#fff;
+                        font-weight:bold;
+                    ">
+                        ${value}
+                    </div>
+                `;
+            });
+            snapMS += `</div>`;
+            snapMS += `</div>`;
         }
-        else {
-            array[k] = R[j];
+    });
+    
+    snapMS += `</div>`;
+    snapMS += `</div>`;
+}
+
+// merge
+function merge(left, right) {
+    let result = [];
+    let i = 0, j = 0;
+    
+    // merging 
+    while (i < left.length && j < right.length) {
+        if (left[i] <= right[j]) {
+            result.push(left[i]);
+            i++;
+        } else {
+            result.push(right[j]);
             j++;
         }
-        k++;
     }
-
-    // remaining elements
-    while(i < size1) {
-        array[k] = L[i];
+    
+    // add remaining elements
+    while (i < left.length) {
+        result.push(left[i]);
         i++;
-        k++;
     }
-    while(j < size2) {
-        array[k] = R[j];
+    while (j < right.length) {
+        result.push(right[j]);
         j++;
-        k++;
     }
+    
+    return result;
 }
 
 // mergeSort
-function mergeSort(array, left, right) {
-    if(left >= right) return;
+function mergeSort(array) {
+    if (array.length <= 1) {
+        return array;
+    }
 
-    const mid = Math.floor(left + (right-left) / 2);
-    mergeSort(array, left, mid);
-    mergeSort(array, mid + 1, right);
-    merge(array, left, mid, right);
+    const mid = Math.floor(array.length / 2);
+    const left = array.slice(0, mid);
+    const right = array.slice(mid);
+
+    // show division
+    snapshotMS([left, right], `Dividing into halves:`);
+
+    // recursively sort left and right
+    const left_sorted = mergeSort(left);
+    const right_sorted = mergeSort(right);
+
+    // merge the sorted halves
+    const merged = merge(left_sorted, right_sorted);
+    
+    // show merged result
+    snapshotMS([merged], `Merged result:`);
+    snapMS += `<div style="height:15px; border-bottom:1px solid #ccc; margin:10px 0;"></div>`; // Separator
+    
+    return merged;
 }
 
 function mergeSortWrapper(){
     const array_string = document.getElementById('array').value.split(',').map(str => str.trim());
 
-    // Check if all array elements are integers
+    // check if all array elements are integers
     const arrayIntegers = array_string.every(item => /^-?\d+$/.test(item));
     if (!arrayIntegers) {
         document.getElementById('result').innerHTML = `
@@ -249,15 +307,30 @@ function mergeSortWrapper(){
             </div>
         `;
         document.getElementById('snapshot').innerHTML = "";
-        snap = "";
+        snapMS = "";
         return;
     }
 
-    // Convert array to actual integers
+    // convert array to actual integers
     const array = array_string.map(Number);
+
     
-    mergeSort(array, 0, array.length-1);
-    const result = array.join(" ")
-    document.getElementById('result').textContent = result;
+    
+    // show initial array
+    snapMS += `<div style="text-align:center; margin-bottom:20px;">`;
+    snapMS += `<div style="font-size:18px; font-weight:bold; margin-bottom:10px;">Original Array:</div>`;
+    snapshotMS([array]);
+    snapMS += `<div style="height:20px; border-bottom:2px solid #999; margin:20px 0;"></div>`;
+    snapMS += `</div>`;
+    
+    const sortedArray = mergeSort(array);
+    
+    // show final sorted array
+    snapMS += `<div style="text-align:center; margin-top:30px;">`;
+    snapMS += `<div style="font-size:20px; font-weight:bold; margin:20px 0 10px 0; color:#2E8B57;">Final Sorted Array:</div>`;
+    snapshotMS([sortedArray]);
+    snapMS += `</div>`;
+    document.getElementById('snapshot').innerHTML = snapMS;
 }
 
+// ============ End of Merge Sort ============
