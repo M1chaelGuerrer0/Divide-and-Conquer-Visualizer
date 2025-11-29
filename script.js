@@ -1,45 +1,55 @@
 // snapshot:
 //     Stores the steps taken
-var snap = ""; 
+var snap = "";
+var snapshots = [];
+var finalMsg = ""
+var current; // current step in timeline
 function snapshot(array, lo, mid, hi, found = false) {
     const cellWidth = 56;
-    const cellPadding = 10;
     const gap = 1;
     const border = 2;
 
-    snap += `<div style="display:inline-block; margin-bottom:25px;">`;
+    let html = '';
 
-    // ARRAY ROW
-    snap += `<div style="display:flex;">`;
+    html += `<div style="display:inline-block; margin-bottom:10px;">`;
+
+    // ====== ARRAY ROW ======
+    html += `<div style="display:flex;">`;
     for (let i = 0; i < array.length; i++) {
-        let bg = (i < lo || i > hi) ? "#ddd" : "#fff";
+        let bg = (i < lo || i > hi) ? "#ff5656ff" : "#fff";
 
-        // Make the box green if this is the found element
-        if (found && i === mid) {
-            bg = "#90EE90"; // Light green color
+        // mid highlight
+        if (i === mid && mid !== -1 && !found) {
+            bg = "#FFFF00"; // yellow
         }
 
-        snap += `
+        // found highlight
+        if (found && i === mid) {
+            bg = "#90EE90"; // light green
+        }
+
+        html += `
             <div style="
                 width:${cellWidth}px;
-                padding:${cellPadding}px 0;
+                height:${cellWidth}px;
+                display:flex;
+                justify-content:center;
+                align-items:center;
                 margin-right:${gap}px;
-                border:${border}px solid #333;
-                border-radius:6px;
-                text-align:center;
+                border:${border}px solid #000;
+                background:${bg};
+                box-sizing:border-box;
                 font-size:20px;
                 font-family:Arial, sans-serif;
-                background-color:${bg};
-                box-sizing:border-box;
             ">
                 ${array[i]}
             </div>
         `;
     }
-    snap += `</div>`;
+    html += `</div>`;
 
-    // LABEL ROW {low, mid, high}
-    snap += `<div style="display:flex; margin-top:5px;">`;
+    // ====== LABEL ROW (Low / Mid / High) ======
+    html += `<div style="display:flex; margin-top:5px; height:48px; align-items:flex-start;">`;
 
     for (let i = 0; i < array.length; i++) {
         let labels = [];
@@ -47,9 +57,9 @@ function snapshot(array, lo, mid, hi, found = false) {
         if (i === mid && mid !== -1) labels.push("Mid");
         if (i === hi) labels.push("High");
 
-        let content = labels.length ? labels.join("<br>") : "&nbsp;";
+        const content = labels.length ? labels.join("<br>") : "&nbsp;";
 
-        snap += `
+        html += `
             <div style="
                 width:${cellWidth}px;
                 margin-right:${gap}px;
@@ -65,10 +75,91 @@ function snapshot(array, lo, mid, hi, found = false) {
         `;
     }
 
-    snap += `</div>`;
+    html += `</div>`;       // end label row
+    html += `</div>`;       // end snapshot block
 
-    snap += `</div><br><br>`;
+    // store this full snapshot
+    snapshots.push(html);
 }
+
+function renderTimeline() {
+    const snapshotDiv = document.getElementById('snapshot');
+    const controlsDiv = document.getElementById('timelineControls');
+
+    if (snapshots.length === 0) {
+        snapshotDiv.innerHTML = "";
+        controlsDiv.innerHTML = "";
+        return;
+    }
+
+    let current = 0;
+
+    function showStep(index) {
+    current = index;
+    snapshotDiv.innerHTML = snapshots[index];
+
+    const label = document.getElementById('stepLabel');
+    if (label) {
+        label.textContent = `Step ${index + 1} of ${snapshots.length}`;
+    }
+
+    const slider = document.getElementById('stepSlider');
+    if (slider) {
+        slider.value = index;
+    }
+
+    // NEW: only show the result text on the final snapshot
+    const resultDiv = document.getElementById('result');
+    const visibility = (current === snapshots.length - 1) ? "visible" : "hidden";
+    resultDiv.innerHTML = `
+        <div style="
+            font-size:22px;
+            font-family:Arial, sans-serif;
+            font-weight:bold;
+            margin-top:10px;
+            visibility:${visibility};
+        ">
+            ${finalMsg}
+        </div>
+    `;
+}
+
+    // build controls UI
+    controlsDiv.innerHTML = `
+        <div style="margin-top:10px; font-family:Arial, sans-serif;">
+            <button id="prevStep" style="margin-right:5px;">Prev</button>
+            <input type="range"
+                   id="stepSlider"
+                   min="0"
+                   max="${snapshots.length - 1}"
+                   value="0"
+                   style="width:300px; vertical-align:middle;">
+            <button id="nextStep" style="margin-left:5px;">Next</button>
+            <span id="stepLabel" style="margin-left:10px; font-size:14px;">
+                Step 1 of ${snapshots.length}
+            </span>
+        </div>
+    `;
+
+    // wire up events
+    document.getElementById('stepSlider').addEventListener('input', function () {
+        showStep(parseInt(this.value, 10));
+    });
+
+    document.getElementById('prevStep').addEventListener('click', function () {
+        if (current > 0) showStep(current - 1);
+    });
+
+    document.getElementById('nextStep').addEventListener('click', function () {
+        if (current < snapshots.length - 1) {
+            showStep(current + 1);
+        }
+    });
+
+    // show first step
+    showStep(0);
+}
+
 
 
 // binary search function
@@ -150,27 +241,23 @@ function binarySearchWrapper(){
         return;
     }
 
+    // reset old snapshots
+    snapshots = [];
+    finalMsg = "";
+
     // gather results from current array and key    
     const result = binarySearch(array, key, 0, array.length - 1);
 
-    // Show snapshots
-    document.getElementById('snapshot').innerHTML = snap;
-    snap = "";
+    // build the final message for the last step
+    finalMsg = (result === -1)
+    ? `Key ${key} was NOT found in the array.`
+    : `Key ${key} was found at index ${result}.`;
 
-    // Show final message
-    const msg = (result === -1)
-      ? `Key ${key} was NOT found in the array.`
-      : `Key ${key} was found at index ${result}.`;
+    // set up the timeline UI and show the first step
+    renderTimeline();
 
-    document.getElementById('result').innerHTML = `
-        <div style="
-            font-size:22px;
-            font-family:Arial, sans-serif;
-            font-weight:bold;
-            margin-top:10px;
-        ">
-            ${msg}
-        </div>
-    `;
+    // clear the result area for now; showStep() will fill it on the last step
+    const resultDiv = document.getElementById('result');
+    if (resultDiv) {
+        resultDiv.innerHTML = "";}
 }
-
