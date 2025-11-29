@@ -1,7 +1,7 @@
-// snapshot:
+// snapshotBS:
 //     Stores the steps taken
 var snap = ""; 
-function snapshot(array, lo, mid, hi, found = false) {
+function snapshotBS(array, lo, mid, hi, found = false) {
     const cellWidth = 56;
     const cellPadding = 10;
     const gap = 1;
@@ -74,7 +74,7 @@ function snapshot(array, lo, mid, hi, found = false) {
 // binary search function
 function binarySearch(array, key, lo, hi) {
     if(lo > hi) {
-        snapshot(array, lo, -1, hi, `Key not found in this range.`);
+        snapshotBS(array, lo, -1, hi, `Key not found in this range.`);
         return -1;
     }
 
@@ -82,11 +82,11 @@ function binarySearch(array, key, lo, hi) {
     mid = Math.floor((lo + hi) / 2);
 
     // current values saved
-    snapshot(array, lo, mid, hi);
+    snapshotBS(array, lo, mid, hi);
 
     // comparisons
     if(array[mid] == key) {
-        snapshot(array, lo, mid, hi, true);
+        snapshotBS(array, lo, mid, hi, true);
         return mid;
     }
     else if (array[mid] < key){
