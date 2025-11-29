@@ -2,16 +2,11 @@
 Plan on doing Binary Search and Merge Sort.
 
 ## Progress:
-* assumes sorted array
-* smaller arrays are working so far
+* Binary Search:
+  * error for unsorted arrays
+  * error for none integers or format issues
+  * basic visual steps
+* Merge Sort: 
 
 ## TO DO:
-* show errors for:
-  * unsorted
-  * not found
-  * not correct format / empty
-* stylizing:
-  * better step by step format
-  * general stylization
-    * box array with arrow showing middle
-    * grey side of array not being used
+* Merge Sort

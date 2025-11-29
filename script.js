@@ -1,7 +1,7 @@
 // snapshot:
 //     Stores the steps taken
 var snap = ""; 
-function snapshot(array, lo, mid, hi) {
+function snapshot(array, lo, mid, hi, found = false) {
     const cellWidth = 56;
     const cellPadding = 10;
     const gap = 1;
@@ -13,6 +13,11 @@ function snapshot(array, lo, mid, hi) {
     snap += `<div style="display:flex;">`;
     for (let i = 0; i < array.length; i++) {
         let bg = (i < lo || i > hi) ? "#ddd" : "#fff";
+
+        // Make the box green if this is the found element
+        if (found && i === mid) {
+            bg = "#90EE90"; // Light green color
+        }
 
         snap += `
             <div style="
@@ -75,9 +80,13 @@ function binarySearch(array, key, lo, hi) {
 
     // middle calculation
     mid = Math.floor((lo + hi) / 2);
+
+    // current values saved
     snapshot(array, lo, mid, hi);
+
     // comparisons
     if(array[mid] == key) {
+        snapshot(array, lo, mid, hi, true);
         return mid;
     }
     else if (array[mid] < key){
@@ -89,19 +98,66 @@ function binarySearch(array, key, lo, hi) {
 }
 
 
-// wrapper function
-function binarySearchWrapper(){
-    const temp = document.getElementById('array').value;
-    const array = temp.split(',').map(Number);
-    const key = Number(document.getElementById('key').value);
 
+/*  Wrapper function:
+        - Takes the inputs, verifies them, sends to binarySearch funtion.
+        - Gets the result and snapshots of the steps taken.
+        - Displays the steps and final result.
+*/
+function binarySearchWrapper(){
+    const key = document.getElementById('key').value;
+    const array_string = document.getElementById('array').value.split(',').map(str => str.trim());
+
+    // Check if all array elements are integers
+    const arrayIntegers = array_string.every(item => /^-?\d+$/.test(item));
+    if (!arrayIntegers) {
+        document.getElementById('result').innerHTML = `
+            <div style="
+                color: red;
+                font-size: 22px;
+                font-family: Arial, sans-serif;
+                font-weight: bold;
+                margin-top: 10px;
+            ">
+                Error: Array must contain only integers, separated by commas.
+            </div>
+        `;
+        document.getElementById('snapshot').innerHTML = "";
+        snap = "";
+        return;
+    }
+
+    // Convert array to actual integers
+    const array = array_string.map(Number);
+
+    // Check if array is sorted
+    const sortedCopy = [...array].sort((a, b) => a - b);
+    const isSorted = array.every((value, index) => value === sortedCopy[index]);
+    if (!isSorted) {
+        document.getElementById('result').innerHTML = `
+            <div style="
+                color: red;
+                font-size: 22px;
+                font-family: Arial, sans-serif;
+                font-weight: bold;
+                margin-top: 10px;
+            ">
+                Error: The array must be sorted before using binary search.
+            </div>
+        `;
+        document.getElementById('snapshot').innerHTML = "";
+        snap = "";
+        return;
+    }
+
+    // gather results from current array and key    
     const result = binarySearch(array, key, 0, array.length - 1);
-    
+
     // Show snapshots
     document.getElementById('snapshot').innerHTML = snap;
-    snap = ""; // reset
+    snap = "";
 
-    // final message
+    // Show final message
     const msg = (result === -1)
       ? `Key ${key} was NOT found in the array.`
       : `Key ${key} was found at index ${result}.`;
