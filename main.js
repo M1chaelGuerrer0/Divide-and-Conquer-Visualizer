@@ -290,6 +290,10 @@ function mergeSort(array) {
 }
 
 function mergeSortWrapper(){
+    snapMS= "";
+    document.getElementById('snapshot').innerHTML = "";
+    document.getElementById('result').innerHTML = "";
+
     const array_string = document.getElementById('array').value.split(',').map(str => str.trim());
 
     // check if all array elements are integers
