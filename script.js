@@ -1,9 +1,8 @@
 // snapshot:
 //     Stores the steps taken
-var snap = "";
 var snapshots = [];
-var finalMsg = ""
-var current; // current step in timeline
+var finalMsg = "";
+var current = 0; // current step in timeline
 function snapshot(array, lo, mid, hi, found = false) {
     const cellWidth = 56;
     const gap = 1;
@@ -14,7 +13,7 @@ function snapshot(array, lo, mid, hi, found = false) {
     html += `<div style="display:inline-block; margin-bottom:10px;">`;
 
     // ====== ARRAY ROW ======
-    html += `<div style="display:flex;">`;
+    html += `<div style="display:flex; overflow-x:auto;">`;
     for (let i = 0; i < array.length; i++) {
         let bg = (i < lo || i > hi) ? "#ff5656ff" : "#fff";
 
@@ -85,6 +84,7 @@ function snapshot(array, lo, mid, hi, found = false) {
 function renderTimeline() {
     const snapshotDiv = document.getElementById('snapshot');
     const controlsDiv = document.getElementById('timelineControls');
+    
 
     if (snapshots.length === 0) {
         snapshotDiv.innerHTML = "";
@@ -94,9 +94,11 @@ function renderTimeline() {
 
     let current = 0;
 
-    function showStep(index) {
+function showStep(index) {
     current = index;
     snapshotDiv.innerHTML = snapshots[index];
+
+    
 
     const label = document.getElementById('stepLabel');
     if (label) {
@@ -108,7 +110,7 @@ function renderTimeline() {
         slider.value = index;
     }
 
-    // NEW: only show the result text on the final snapshot
+    // only show the result text on the final snapshot
     const resultDiv = document.getElementById('result');
     const visibility = (current === snapshots.length - 1) ? "visible" : "hidden";
     resultDiv.innerHTML = `
@@ -143,6 +145,8 @@ function renderTimeline() {
 
     // wire up events
     document.getElementById('stepSlider').addEventListener('input', function () {
+        const value = (this.value - this.min) / (this.max - this.min) * 100;
+        this.style.setProperty('--value', value + '%');
         showStep(parseInt(this.value, 10));
     });
 
@@ -158,6 +162,8 @@ function renderTimeline() {
 
     // show first step
     showStep(0);
+    const slider = document.getElementById('stepSlider');
+    slider.style.setProperty('--value', '0%');
 }
 
 
@@ -214,7 +220,9 @@ function binarySearchWrapper(){
             </div>
         `;
         document.getElementById('snapshot').innerHTML = "";
-        snap = "";
+        document.getElementById('timelineControls').innerHTML = "";
+        snapshots = [];
+        finalMsg = "";
         return;
     }
 
@@ -248,7 +256,7 @@ function binarySearchWrapper(){
     // gather results from current array and key    
     const result = binarySearch(array, key, 0, array.length - 1);
 
-    // build the final message for the last step
+    // message for when index is found
     finalMsg = (result === -1)
     ? `Key ${key} was NOT found in the array.`
     : `Key ${key} was found at index ${result}.`;

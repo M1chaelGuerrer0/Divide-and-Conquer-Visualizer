@@ -1,3 +1,80 @@
-#result {
-  min-height: 500px;
+input[type="range"] {
+  accent-color: #90EE90;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #90EE90 0%, #90EE90 var(--value), #ddd var(--value), #ddd 100%);
+  height: 5px;
+  border-radius: 3px;
+}
+
+input[type="range"]::-moz-range-track {
+  background: linear-gradient(to right, #90EE90 0%, #90EE90 var(--value), #ddd var(--value), #ddd 100%);
+  height: 5px;
+  border-radius: 3px;
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  background: #90EE90;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background: #90cdee;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+
+#codePanel {
+  position: fixed;      /* stick it */
+  right: 24px;
+  bottom: 24px;
+  width: 320px;
+  max-height: 260px;
+  padding: 10px 12px;
+  background: #111827;
+  color: #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  font-family: "Fira Code", Consolas, monospace;
+  font-size: 13px;
+  overflow-y: auto;
+}
+
+#codeTitle {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+#codeLines {
+  margin: 0;
+}
+
+.code-line {
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.code-line span.line-no {
+  display: inline-block;
+  width: 22px;
+  color: #6b7280;
+}
+
+.code-line.active {
+  background: rgba(56, 189, 248, 0.15);
+  color: #f9fafb;
 }
