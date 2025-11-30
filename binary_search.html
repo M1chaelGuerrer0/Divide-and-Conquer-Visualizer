@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Binary Search</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1>Enter Array and Key</h1>
+
+    <input type="text" id="array" placeholder="Enter array: 1,2,..">
+    <input type="number" id="key" placeholder="Enter key:">
+
+    <button onclick="binarySearchWrapper()">Search</button>
+
+    <!-- one snapshot container -->
+    <div id="snapshot" style="min-height:150px; overflow-x:auto;"></div>
+
+    <!-- one result container -->
+    <div id="result" style="min-height:60px;"></div>
+
+    <!-- where the slider and buttons go -->
+    <div id="timelineControls"></div>
+
+    <!-- pseudo-code panel (optional, but valid) -->
+    <div id="codePanel">
+      <div id="codeTitle">Binary Search (pseudo-code)</div>
+      <pre id="codeLines"></pre>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

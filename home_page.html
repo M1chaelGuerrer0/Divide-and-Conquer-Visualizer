@@ -1,0 +1,66 @@
+<head>
+    <title>Divide and Conquer Visualizer</title>
+    <h1>Divide and Conquer Visualizer</h1>
+</head>
+
+<body>
+    <section>
+        <h2>
+            Divide and Conquer basic idea
+        </h2>
+        <p>The divide and conquer approach involves breaking a problem into smaller subproblems,
+            and once the solutions to the subproblems are found they are combined to obtain a final solution. </p> 
+    </section>
+    <section>
+        <h2>
+            Examples of Divide and Conquer
+        </h2>
+        <p>
+            Some common examples of divide and conquer algorithms include binary search and merge sort.      
+        </p>
+    </section>
+    <section> 
+        <h2> Binary Search</h2>
+        <p>
+            Binary seach is a searching algorithm that finds the position of target element within a sorted array.
+            The algorithm works by constantly dividing the search interval in half.
+        </p>
+        
+        <ul>
+            <li>compare the middle element with the target element</li>
+            <li>if the target element is equal to the middle element, the search is complete</li>
+            <li>if the target element is less than the middle element, search the left half of the array</li>
+            <li>if the target element is greater than the middle element, search the right half of the array</li>
+            <li>repeat the process until the target element is found or the interval is empty</li>
+        </ul>
+        <h2>Binary Search Time Complexity</h2>
+        <ul>
+            <li>Best Case: O(1) - The target element is found at the middle of the array on the first comparison.</li>
+            <li>Worst Case: O(log n) - The target element is not found until the last step or the target element is not in the array.</li>        
+        </ul>
+        <img src ="examplebinary.png" alt ="binary search visualization" style = "width: 300px; height: 500px;">
+        <br><br>
+        <button onclick = "location.href = 'binary_search.html' ">Binary Search Visualizer</button>
+    </section>
+    <section>
+        <h2>Merge Sort  </h2>
+        <p>
+           
+            Merge sort is a sorting algorithm that uses the divide and conquer approach to sort an array.
+            The algorithm works by recursively dividing the array into two halves, sorting each half and then merging them back together resulting
+            in a sorted array.
+        </p>
+        <h2>Merge Sort Time Complexity</h2>
+        <p>The best, worst, and average case time complexity of merge sort is O(nlogn). This is because when the array is divided into two halves it takes O(logn)
+            time. Merging the two halves takes O(n) time. Therefore combining these two gives O(nlogn) time complexity for all cases.
+        </p>
+        <img src = "examplemerge.png" alt = "merge sort visualization" style = "width: 1000px; height: 1000px;">
+        <br><br>
+        <button onclick = "location.href = 'merge_sort.html'"> Merge Sort Visualizer</button>
+    </section>
+
+
+
+
+
+</body>
