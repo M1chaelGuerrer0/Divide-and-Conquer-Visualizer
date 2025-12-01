@@ -78,3 +78,73 @@ input[type="range"]::-moz-range-thumb {
   background: rgba(56, 189, 248, 0.15);
   color: #f9fafb;
 }
+
+/* Page styling*/
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0b1120;  /* dark navy */
+    color: #f9fafb;             /* light gray text */
+}
+
+/* Main container that centers the content and limits its width */
+.page {
+    max-width: 900px;
+    margin: 0 auto;      /* centers the div horizontally */
+    padding: 16px;
+}
+
+/* Title and tagline at the top */
+h1 {
+    font-size: 28px;
+    margin-bottom: 4px;
+}
+
+/* General section box: background, spacing, rounded corners */
+.section {
+    background-color: #111827; /* slightly lighter dark */
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Headers inside sections */
+.section h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.section h3 {
+    margin-bottom: 6px;
+}
+
+/* Bullet list spacing */
+.section ul {
+    padding-left: 20px;
+}
+
+
+/* Image styles: responsive and not too big */
+.algo-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #374151;
+}
+
+/* Simple green button */
+.btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #22c55e;  /* green */
+    color: #022c22;             /* dark text */
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Slightly darker on hover */
+.btn:hover {
+    background-color: #16a34a;
+}
