@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>Binary Search</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <h1>Enter Array and Key</h1>
 
+    <section class="section">
     <input type="text" id="array" placeholder="Enter array: 1,2,..">
     <input type="number" id="key" placeholder="Enter key:">
 
     <button onclick="binarySearchWrapper()">Search</button>
+    </section>
 
     <!-- one snapshot container -->
-    <div id="snapshot" style="min-height:150px; overflow-x:auto;"></div>
+    <div id="snapshot" style="min-height:150px; overflow-x:auto; text-align:center"></div>
 
     <!-- one result container -->
-    <div id="result" style="min-height:60px;"></div>
+    <div id="result" style="min-height:60px;text-align:center; display:flex: justify-content:center;align-items:center;"></div>
 
     <!-- where the slider and buttons go -->
     <div id="timelineControls"></div>

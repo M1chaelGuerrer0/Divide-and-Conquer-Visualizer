@@ -10,16 +10,21 @@ function snapshot(array, lo, mid, hi, found = false) {
 
     let html = '';
 
-    html += `<div style="display:inline-block; margin-bottom:10px;">`;
+    html += `<div style="display:inline-block; margin-bottom:10px; margin-bottom:10px;">`;
 
     // ====== ARRAY ROW ======
     html += `<div style="display:flex; overflow-x:auto;">`;
     for (let i = 0; i < array.length; i++) {
-        let bg = (i < lo || i > hi) ? "#ff5656ff" : "#fff";
+        // out-of-bounds highlight
+        let bg = (i < lo || i > hi) ? "#ff5656ff" : "#111827";
+        let borderColor = (i< lo || i > hi) ? "#7f1d1d" : "4b5563";
+        let textColor = (i < lo || i > hi) ? "#111827" : "#e5e7eb";
 
         // mid highlight
         if (i === mid) {
-            bg = found ? "#90EE90" : "#ADD8E6";
+            bg = found ? "#90EE90" : "#38bdf8";
+            borderColor = found ? "#22c55e" : "e5e7eb";
+            textColor = found ? "#022c22" : "#020617";
         }
 
         html += `
@@ -30,10 +35,11 @@ function snapshot(array, lo, mid, hi, found = false) {
                 justify-content:center;
                 align-items:center;
                 margin-right:${gap}px;
-                border:${border}px solid #000;
+                border:${border}px solid ${borderColor};
                 background:${bg};
                 box-sizing:border-box;
                 font-size:20px;
+                color:${textColor};
             ">
                 ${array[i]}
             </div>
@@ -50,22 +56,22 @@ function snapshot(array, lo, mid, hi, found = false) {
 
         if (i === lo && i === mid && i === hi) {
             label = 'lo/mid/hi';
-            color = '#8B0000';
+            color = '#e5e7eb';
         } else if (i === lo && i === mid) {
             label = 'lo/mid';
-            color = '#8B0000';
+            color = '#e5e7eb';
         } else if (i === mid && i === hi) {
             label = 'mid/hi';
-            color = '#8B0000';
+            color = '#e5e7eb';
         } else if (i === lo) {
             label = 'lo';
-            color = '#8B0000';
+            color = '#e5e7eb';
         } else if (i === mid) {
             label = 'mid';
-            color = '#8B0000';
+            color = '#e5e7eb';
         } else if (i === hi) {
             label = 'hi';
-            color = '#8B0000';
+            color = '#e5e7eb';
         }
 
         html += `
@@ -173,7 +179,7 @@ if (slider) {
 }
 
 
-    
+
 
     // buttons
     const firstBtn = document.getElementById('firstStepBtn');
