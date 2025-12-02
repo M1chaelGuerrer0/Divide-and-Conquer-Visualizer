@@ -355,7 +355,7 @@ function snapshotMS(arrays, step = "") {
 
     // step description
     if (step) {
-        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#333; font-weight:bold;">${step}</div>`;
+        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#FFFFFF; font-weight:bold;">${step}</div>`;
     }
 
     // container
@@ -368,23 +368,27 @@ function snapshotMS(arrays, step = "") {
             // Array label (Left/Right)
             if (arrays.length > 1) {
                 const label = index === 0 ? "Left" : "Right";
-                snapMS += `<div style="font-size:14px; margin-bottom:5px; color:#666;">${label}</div>`;
+                snapMS += `<div style="font-size:14px; margin-bottom:5px; color:#9ca3af;">${label}</div>`;
             }
 
             // ARRAY ROW
             snapMS += `<div style="display:flex;">`;
             array.forEach(value => {
+                const cellBg = "#111827";
+                const cellBorder = "#4b5563";
+                const cellText = "#FFFFFF";
                 snapMS += `
                     <div style="
                         width:${cellWidth}px;
                         padding:${cellPadding}px 0;
                         margin-right:${gap}px;
-                        border:2px solid #333;
+                        border:2px solid ${cellBorder};
                         border-radius:6px;
                         text-align:center;
                         font-size:18px;
                         font-family:Arial, sans-serif;
-                        background-color:#fff;
+                        background-color:${cellBg};
+                        color:${cellText};
                         box-sizing:border-box;
                     ">
                         ${value}
@@ -399,7 +403,7 @@ function snapshotMS(arrays, step = "") {
                     margin-top:8px;
                     font-size:13px;
                     font-family:Arial, sans-serif;
-                    color:#555;
+                    color:#FFFFFF;
                 ">
                     [${array.join(", ")}]
                 </div>
