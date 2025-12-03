@@ -137,6 +137,8 @@ function renderTimeline() {
     // show a specific step
     function showStep(index) {
         current = index;
+        console.log("Highlighting code for step:", index);
+        highlightCodeLineWrapper(index);
         snapshotDiv.innerHTML = snapshots[index];
 
         const label = document.getElementById('stepLabel');
@@ -209,6 +211,8 @@ if (slider) {
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
             if (current > 0) {
+                const percent = (current - 1)  / (snapshots.length - 1) * 100;
+                slider.style.setProperty('--value', percent + '%');
                 showStep(current - 1);
             }
         });
@@ -217,6 +221,8 @@ if (slider) {
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
             if (current < snapshots.length - 1) {
+                const percent = (current + 1)  / (snapshots.length - 1) * 100;
+                slider.style.setProperty('--value', percent + '%');
                 showStep(current + 1);
             }
         });
@@ -224,12 +230,16 @@ if (slider) {
 
     if (firstBtn) {
         firstBtn.addEventListener('click', () => {
+            const percent = 0;
+            slider.style.setProperty('--value', percent + '%');
             showStep(0);
         });
     }
 
     if (lastBtn) {
         lastBtn.addEventListener('click', () => {
+            const percent = 100;
+            slider.style.setProperty('--value', percent + '%');
             showStep(snapshots.length - 1);
         });
     }
@@ -243,7 +253,7 @@ if (slider) {
 */
 function binarySearch(array, key, lo, hi) {
     if (lo > hi) {
-        snapshot(array, lo, -1, hi, "lo > hi: search range empty");
+        snapshot(array, lo, -1, hi, "Low > High: Search Range Empty");
         return -1;
     }
 
@@ -251,7 +261,7 @@ function binarySearch(array, key, lo, hi) {
     const mid = Math.floor((lo + hi) / 2);
 
     // current values saved
-    snapshot(array, lo, mid, hi, `checking mid: ${array[mid]} =? ${key}`);
+    snapshot(array, lo, mid, hi, `Checking Mid: ${array[mid]} =? ${key}`);
 
     // comparisons
     if (array[mid] == key) {
@@ -260,11 +270,11 @@ function binarySearch(array, key, lo, hi) {
         return mid;
     } else if (array[mid] < key) {
         // current values saved with search right highlight
-        snapshot(array, lo, mid, hi, `${array[mid]} < ${key}: search right`);
+        snapshot(array, lo, mid, hi, `${array[mid]} < ${key}: Search Right`);
         return binarySearch(array, key, mid + 1, hi);
     } else {
         // current values saved with search left highlight
-        snapshot(array, lo, mid, hi, `${array[mid]} > ${key}: search left`);
+        snapshot(array, lo, mid, hi, `${array[mid]} > ${key}: Search Left`);
         return binarySearch(array, key, lo, mid - 1);
     }
 }
@@ -377,6 +387,56 @@ document.addEventListener('DOMContentLoaded', function() {
     codePanel.classList.add('collapsed');
   }
 });
+
+
+function highlightCodeLineWrapper(index) {
+console.log(snapshots[index][0]);
+  const html = snapshots[index]; // this is your big HTML string
+
+  const temp = document.createElement('div');
+  temp.innerHTML = html;
+
+  // adjust this selector to match how you actually built the message div
+  const msgDiv = temp.querySelector('div > div'); // e.g. outer div then inner message div
+
+  if (!msgDiv) return null;
+
+  const final_msg = msgDiv.textContent.trim();
+  console.log("Final message extracted:", final_msg);
+
+  if (final_msg.includes("Checking Mid")) {
+    highlightCodeLine(10);
+  }
+  if (final_msg.includes("Search Right")) {
+    highlightCodeLine(14);
+  }
+  if (final_msg.includes("Search Left")) {
+    highlightCodeLine(17);
+  }
+  if (final_msg.includes("Search Range empty")) {
+    highlightCodeLine(4);
+}
+  if (final_msg.includes("==")) {
+    highlightCodeLine(11);
+    }
+}
+
+function highlightCodeLine(lineNumbers) {
+    if (!Array.isArray(lineNumbers)) {
+    lineNumbers = [lineNumbers];
+  }
+    document
+    .querySelectorAll('#codeLines .code-line.highlight')
+    .forEach(el => el.classList.remove('highlight'));
+
+    lineNumbers.forEach(num => {
+    const lineEl = document.querySelector(`#codeLines .code-line[data-line="${num}"]`);
+    if (lineEl) {
+      lineEl.classList.add('highlight');
+    }
+  });
+
+}
 //================ End of Binary Search ===============
 
 // =============== Merge Sort ===============

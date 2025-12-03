@@ -26,29 +26,32 @@
 
     <!-- pseudo-code panel (optional, but valid) -->
     <div id="codePanel" class="collapsed">
-      <div id="codeTitle">
-        BINARY SEARCH (PSEUDO-CODE)
-        <span class="toggle-icon">▼</span>
-      </div>
-      <pre id="codeLines">function binarySearch(array, key, low, high):
-        // base case
-        if (low > high):
-            return not found
-        
-        // find mid index  
-        middle = (low + high) / 2
-        
-        // comparisons
-        if array[middle] == key:
-            return middle
-        
-        if array[middle] < key:
-            return binarySearch(array, key, middle + 1, high)
-        
-        // otherwise
-        return binarySearch(array, key, low, middle - 1)
-      </pre>
-    </div>
+  <div id="codeTitle">
+    BINARY SEARCH (PSEUDO-CODE)
+    <span class="toggle-icon">▼</span>
+  </div>
+
+  <pre id="codeLines">
+    <code class="code-line" data-line="1">function binarySearch(array, key, low, high):</code>
+    <code class="code-line" data-line="2">    // base case</code>
+    <code class="code-line" data-line="3">    if (low > high):</code>
+    <code class="code-line" data-line="4">        return not found</code>
+    <code class="code-line" data-line="5"></code>
+    <code class="code-line" data-line="6">    // find mid index</code>
+    <code class="code-line" data-line="7">    middle = (low + high) / 2</code>
+    <code class="code-line" data-line="8"></code>
+    <code class="code-line" data-line="9">    // comparisons</code>
+    <code class="code-line" data-line="10">    if array[middle] == key:</code>
+    <code class="code-line" data-line="11">        return middle</code>
+    <code class="code-line" data-line="12"></code>
+    <code class="code-line" data-line="13">    if array[middle] < key:  // check right</code>
+    <code class="code-line" data-line="14">        return binarySearch(array, key, middle + 1, high)</code>
+    <code class="code-line" data-line="15"></code>
+    <code class="code-line" data-line="16">    // otherwise check left</code>
+    <code class="code-line" data-line="17">    return binarySearch(array, key, low, middle - 1)</code>
+  </pre>
+</div>
+
 
     <script src="main.js"></script>
   </body>
