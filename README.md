@@ -1,18 +1,8 @@
 # Divide-and-Conquer-Visualizer
-Plan on doing Binary Search and Merge Sort.
+A simple visualizer for the following divide-and-conquer algorithms:
 
-## Progress:
-* Home page:
-  * simple explanation of Binary Search
-  * Forward button to binary search visualizer
-* Binary Search:
-  * error for unsorted arrays
-  * error for none integers or format issues
-  * basic visual steps
-* Merge Sort: 
-  * working 
-  * basic visual steps  
+  * Binary Search
+  * Merge Sort
 
-## TO DO:
-* Merge example on home page
-* styling
+## TO RUN:
+Open home_page.html in your choice of browser.
