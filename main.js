@@ -5,15 +5,30 @@
 */
 var snapshots = [];
 var finalMsg = "";
-var current = 0; // current step in timeline
-function snapshot(array, lo, mid, hi, found = false) {
+function snapshot(array, lo, mid, hi, message="", found = false) {
     const cellWidth = 56;
     const gap = 1;
     const border = 2;
 
     let html = '';
 
-    html += `<div style="display:inline-block; margin-bottom:10px; margin-bottom:10px;">`;
+    html += `<div style="display:inline-block; margin-bottom:10px;">`;
+
+
+    // ====== COMPARISON MESSAGE ======
+    if (message) {
+        html += `<div style="
+            font-size:16px;
+            font-weight:bold;
+            margin-bottom:10px;
+            color:#e5e7eb;
+            text-align:center;
+            font-family:Arial, sans-serif;
+        ">
+            ${message}
+        </div>`;
+    }
+
 
     // ====== ARRAY ROW ======
     html += `<div style="display:flex; overflow-x:auto;">`;
@@ -228,23 +243,28 @@ if (slider) {
 */
 function binarySearch(array, key, lo, hi) {
     if (lo > hi) {
-        snapshot(array, lo, -1, hi);
+        snapshot(array, lo, -1, hi, "lo > hi: search range empty");
         return -1;
     }
 
     // middle calculation
-    mid = Math.floor((lo + hi) / 2);
+    const mid = Math.floor((lo + hi) / 2);
 
     // current values saved
-    snapshot(array, lo, mid, hi);
+    snapshot(array, lo, mid, hi, `checking mid: ${array[mid]} =? ${key}`);
 
     // comparisons
     if (array[mid] == key) {
-        snapshot(array, lo, mid, hi, true);
+        // current values saved with found highlight
+        snapshot(array, lo, mid, hi, `${array[mid]} == ${key}`, true);
         return mid;
     } else if (array[mid] < key) {
+        // current values saved with search right highlight
+        snapshot(array, lo, mid, hi, `${array[mid]} < ${key}: search right`);
         return binarySearch(array, key, mid + 1, hi);
     } else {
+        // current values saved with search left highlight
+        snapshot(array, lo, mid, hi, `${array[mid]} > ${key}: search left`);
         return binarySearch(array, key, lo, mid - 1);
     }
 }
@@ -319,8 +339,6 @@ function binarySearchWrapper() {
             </div>
         `;
         document.getElementById('snapshot').innerHTML = "";
-        // leftover from older implementation; harmless
-        snap = "";
         return;
     }
 
@@ -338,12 +356,6 @@ function binarySearchWrapper() {
 
     // set up the timeline UI and show the first step
     renderTimeline();
-
-    // clear the result area for now; showStep() will fill it on the last step
-    const resultDiv = document.getElementById('result');
-    if (resultDiv) {
-        resultDiv.innerHTML = "";
-    }
 }
 //================ End of Binary Search ===============
 
@@ -363,7 +375,7 @@ function snapshotMS(arrays, step = "") {
 
     // step description
     if (step) {
-        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#fffff; font-weight:bold;">${step}</div>`;
+        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#ffffff; font-weight:bold;">${step}</div>`;
     }
 
     // container
@@ -393,7 +405,7 @@ function snapshotMS(arrays, step = "") {
                         font-size:16px;
                         font-family:Arial, sans-serif;
                         background-color:#111827;
-                        color:#FFFFFF
+                        color:#FFFFFF;
                         font-weight:bold;
                     ">
                         ${value}

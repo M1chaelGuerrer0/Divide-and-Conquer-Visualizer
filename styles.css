@@ -16,7 +16,6 @@ input[type="range"]::-moz-range-track {
   border-radius: 3px;
 }
 
-
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 15px;
@@ -29,7 +28,7 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-moz-range-thumb {
   height: 15px;
   width: 15px;
-  background: #C9C5CB;
+  background: #00BFB2;
   border-radius: 50%;
   cursor: pointer;
   border: none;
@@ -46,10 +45,9 @@ button {
   cursor: pointer;
 }
 
-
 input[type=text], input[type=number] {
   outline: none;
-  border: 10dpx solid #0b1120;
+  border: 10px solid #0b1120;
   background-color: #C9C5CB;
   font-family: "Fira Code", Consolas, monospace;
   font-size: 100%;
@@ -57,11 +55,10 @@ input[type=text], input[type=number] {
   outline: none;
   border: 2px solid rgb(200, 200, 200);
   border-radius: 20px;
-
 }
 
 #codePanel {
-  position: fixed;      /* stick it */
+  position: fixed;
   right: 24px;
   bottom: 24px;
   width: 320px;
@@ -108,14 +105,14 @@ input[type=text], input[type=number] {
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #0b1120;  /* dark navy */
-    color: #f9fafb;             /* light gray text */
+    background-color: #0b1120;
+    color: #f9fafb;
 }
 
 /* Main container that centers the content and limits its width */
 .page {
     max-width: 900px;
-    margin: 0 auto;      /* centers the div horizontally */
+    margin: 0 auto;
     padding: 16px;
 }
 
@@ -127,7 +124,7 @@ h1 {
 
 /* General section box: background, spacing, rounded corners */
 .section {
-    background-color: #111827; /* slightly lighter dark */
+    background-color: #111827;
     padding: 16px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -148,8 +145,7 @@ h1 {
     padding-left: 20px;
 }
 
-
-/* Image styles: responsive and not too big */
+/* Image styles */
 .algo-image {
     max-width: 100%;
     height: auto;
@@ -161,8 +157,8 @@ h1 {
 .btn {
     margin-top: 10px;
     padding: 8px 16px;
-    background-color: #22c55e;  /* green */
-    color: #022c22;             /* dark text */
+    background-color: #22c55e;
+    color: #022c22;
     border: none;
     border-radius: 4px;
     font-size: 14px;
