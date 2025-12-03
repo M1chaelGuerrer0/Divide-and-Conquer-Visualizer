@@ -15,7 +15,6 @@ function snapshot(array, lo, mid, hi, found = false) {
     // ====== ARRAY ROW ======
     html += `<div style="display:flex; overflow-x:auto;">`;
     for (let i = 0; i < array.length; i++) {
-<<<<<<< Updated upstream
         // out-of-bounds highlight
         let bg = (i < lo || i > hi) ? "#ff5656ff" : "#111827";
         let borderColor = (i< lo || i > hi) ? "#7f1d1d" : "4b5563";
@@ -26,26 +25,6 @@ function snapshot(array, lo, mid, hi, found = false) {
             bg = found ? "#90EE90" : "#38bdf8";
             borderColor = found ? "#22c55e" : "e5e7eb";
             textColor = found ? "#022c22" : "#020617";
-=======
-<<<<<<< Updated upstream
-        let bg = (i < lo || i > hi) ? "#ff5656ff" : "#fff";
-
-        // mid highlight
-        if (i === mid) {
-            bg = found ? "#90EE90" : "#ADD8E6";
-=======
-        // out-of-bounds highlight
-        let bg = (i < lo || i > hi) ? "#9D5C63" : "#111827";
-        let borderColor = (i< lo || i > hi) ? "#7f1d1d" : "4b5563";
-        let textColor = (i < lo || i > hi) ? "#111827" : "#e5e7eb";
-
-        // mid highlight
-        if (i === mid) {
-            bg = found ? "#32DE8A" : "#F7D002";
-            borderColor = found ? "#22c55e" : "e5e7eb";
-            textColor = found ? "#022c22" : "#020617";
->>>>>>> Stashed changes
->>>>>>> Stashed changes
         }
 
         html += `
@@ -76,7 +55,6 @@ function snapshot(array, lo, mid, hi, found = false) {
         let color = '#000';
 
         if (i === lo && i === mid && i === hi) {
-<<<<<<< Updated upstream
             label = 'lo/mid/hi';
             color = '#e5e7eb';
         } else if (i === lo && i === mid) {
@@ -93,30 +71,7 @@ function snapshot(array, lo, mid, hi, found = false) {
             color = '#e5e7eb';
         } else if (i === hi) {
             label = 'hi';
-<<<<<<< Updated upstream
             color = '#e5e7eb';
-=======
-            color = '#8B0000';
-=======
-            label = 'Low/Mid/High';
-            color = '#e5e7eb';
-        } else if (i === lo && i === mid) {
-            label = 'Low/Mid';
-            color = '#e5e7eb';
-        } else if (i === mid && i === hi) {
-            label = 'Mid/Hi';
-            color = '#e5e7eb';
-        } else if (i === lo) {
-            label = 'Low';
-            color = '#e5e7eb';
-        } else if (i === mid) {
-            label = 'Mid';
-            color = '#e5e7eb';
-        } else if (i === hi) {
-            label = 'High';
-            color = '#e5e7eb';
->>>>>>> Stashed changes
->>>>>>> Stashed changes
         }
 
         html += `
