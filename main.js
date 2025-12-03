@@ -357,6 +357,26 @@ function binarySearchWrapper() {
     // set up the timeline UI and show the first step
     renderTimeline();
 }
+
+// Simple toggle for pseudo-code panel
+document.addEventListener('DOMContentLoaded', function() {
+  const codePanel = document.getElementById('codePanel');
+  const codeTitle = document.getElementById('codeTitle');
+  
+  if (codePanel && codeTitle) {
+    // Toggle panel when title is clicked
+    codeTitle.addEventListener('click', function() {
+      codePanel.classList.toggle('collapsed');
+      const toggleIcon = codeTitle.querySelector('.toggle-icon');
+      if (toggleIcon) {
+        toggleIcon.textContent = codePanel.classList.contains('collapsed') ? '▼' : '▲';
+      }
+    });
+    
+    // Initially show as collapsed
+    codePanel.classList.add('collapsed');
+  }
+});
 //================ End of Binary Search ===============
 
 // =============== Merge Sort ===============

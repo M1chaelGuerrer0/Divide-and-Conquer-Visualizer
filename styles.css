@@ -61,45 +61,53 @@ input[type=text], input[type=number] {
   position: fixed;
   right: 24px;
   bottom: 24px;
-  width: 320px;
-  max-height: 260px;
-  padding: 10px 12px;
+  width: 400px;
+  max-height: 400px;
+  padding: 15px;
   background: #111827;
   color: #e5e7eb;
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.6);
   font-family: "Fira Code", Consolas, monospace;
-  font-size: 13px;
+  font-size: 14px;
   overflow-y: auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  border: 1px solid #374151;
+}
+
+#codePanel.collapsed {
+  height: 50px;
+  max-height: 50px;
+  overflow: hidden;
 }
 
 #codeTitle {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 14px;
+  font-weight: bold;
   color: #9ca3af;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#codeTitle .toggle-icon {
+  font-size: 12px;
+  color: #9ca3af;
 }
 
 #codeLines {
   margin: 0;
+  white-space: pre;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #e5e7eb;
 }
 
-.code-line {
-  padding: 2px 4px;
-  border-radius: 4px;
-}
-
-.code-line span.line-no {
-  display: inline-block;
-  width: 22px;
-  color: #6b7280;
-}
-
-.code-line.active {
-  background: rgba(56, 189, 248, 0.15);
-  color: #f9fafb;
-}
+/* Remove the .code-line.active styles since we don't need highlighting */
 
 /* Page styling*/
 body {

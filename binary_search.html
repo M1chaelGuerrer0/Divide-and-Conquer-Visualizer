@@ -25,9 +25,29 @@
     <div id="result" style="text-align:center; margin-top:20px;"></div>
 
     <!-- pseudo-code panel (optional, but valid) -->
-    <div id="codePanel">
-      <div id="codeTitle">Binary Search (pseudo-code)</div>
-      <pre id="codeLines"></pre>
+    <div id="codePanel" class="collapsed">
+      <div id="codeTitle">
+        BINARY SEARCH (PSEUDO-CODE)
+        <span class="toggle-icon">▼</span>
+      </div>
+      <pre id="codeLines">function binarySearch(array, key, low, high):
+        // base case
+        if (low > high):
+            return not found
+        
+        // find mid index  
+        middle = (low + high) / 2
+        
+        // comparisons
+        if array[middle] == key:
+            return middle
+        
+        if array[middle] < key:
+            return binarySearch(array, key, middle + 1, high)
+        
+        // otherwise
+        return binarySearch(array, key, low, middle - 1)
+      </pre>
     </div>
 
     <script src="main.js"></script>
