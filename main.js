@@ -1,5 +1,8 @@
-// snapshot:
-//     Stores the steps taken
+/*
+    Snapshot method is used to capture steps taken in binary search.
+    Each snapshot is stored as an HTML string in the snapshots array.
+    The renderTimeline() function displays these snapshots with navigation controls.
+*/
 var snapshots = [];
 var finalMsg = "";
 var current = 0; // current step in timeline
@@ -95,6 +98,7 @@ function snapshot(array, lo, mid, hi, found = false) {
     snapshots.push(html);
 }
 
+// update slider background
 function updateSliderBackground(slider) {
     const min = Number(slider.min) || 0;
     const max = Number(slider.max) || 1;
@@ -103,7 +107,7 @@ function updateSliderBackground(slider) {
     slider.style.setProperty('--value', percent + '%');
 }
 
-
+// render timeline UI
 function renderTimeline() {
     const snapshotDiv = document.getElementById('snapshot');
     const controlsDiv = document.getElementById('timelineControls');
@@ -115,7 +119,7 @@ function renderTimeline() {
     }
 
     let current = 0;
-
+    // show a specific step
     function showStep(index) {
         current = index;
         snapshotDiv.innerHTML = snapshots[index];
@@ -219,12 +223,12 @@ if (slider) {
     showStep(0);
 }
 
-// BINARY SEARCH functions
-var mid; // current midpoint
-
+/*
+    Binary Search Algorithm with Snapshots
+*/
 function binarySearch(array, key, lo, hi) {
     if (lo > hi) {
-        snapshot(array, lo, -1, hi, `Key not found in this range.`);
+        snapshot(array, lo, -1, hi);
         return -1;
     }
 
@@ -245,8 +249,10 @@ function binarySearch(array, key, lo, hi) {
     }
 }
 
-/*  Wrapper function:
-        Uses global variable mid and push to snapshot()
+/*  
+    Wrapper function:
+        the main binary search function that handles input validation,
+        resets snapshots, and initiates the search and timeline rendering.
 */
 function binarySearchWrapper() {
     const key = document.getElementById('key').value;
@@ -339,10 +345,14 @@ function binarySearchWrapper() {
         resultDiv.innerHTML = "";
     }
 }
+//================ End of Binary Search ===============
 
 // =============== Merge Sort ===============
 
-// snapshotMS: imple snapshot for merge sort
+/*
+    Snapshot method for Merge Sort visualization.
+    Each snapshot is appended to the global snapMS string as an HTML block.
+*/
 var snapMS = "";
 function snapshotMS(arrays, step = "") {
     const cellWidth = 45;
@@ -399,7 +409,9 @@ function snapshotMS(arrays, step = "") {
     snapMS += `</div>`;
 }
 
-// merge
+/*
+    Merge function to combine two sorted arrays into one sorted array.
+*/
 function merge(left, right) {
     let result = [];
     let i = 0, j = 0;
@@ -428,7 +440,9 @@ function merge(left, right) {
     return result;
 }
 
-// mergeSort
+/*
+    Merge Sort function with snapshots.
+*/
 function mergeSort(array) {
     if (array.length <= 1) {
         return array;
@@ -455,6 +469,11 @@ function mergeSort(array) {
     return merged;
 }
 
+/*
+    Wrapper function:
+        the main merge sort function that handles input validation,
+        resets snapshots, and initiates the sort and timeline rendering.
+*/
 function mergeSortWrapper(){
     const array_string = document.getElementById('array').value.split(',').map(str => str.trim());
 
