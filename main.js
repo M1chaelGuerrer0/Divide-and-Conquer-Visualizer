@@ -16,13 +16,13 @@ function snapshot(array, lo, mid, hi, found = false) {
     html += `<div style="display:flex; overflow-x:auto;">`;
     for (let i = 0; i < array.length; i++) {
         // out-of-bounds highlight
-        let bg = (i < lo || i > hi) ? "#ff5656ff" : "#111827";
+        let bg = (i < lo || i > hi) ? "#A44A3F" : "#111827";
         let borderColor = (i< lo || i > hi) ? "#7f1d1d" : "4b5563";
         let textColor = (i < lo || i > hi) ? "#111827" : "#e5e7eb";
 
         // mid highlight
         if (i === mid) {
-            bg = found ? "#90EE90" : "#38bdf8";
+            bg = found ? "#69995D" : "#246A73";
             borderColor = found ? "#22c55e" : "e5e7eb";
             textColor = found ? "#022c22" : "#020617";
         }
@@ -55,22 +55,22 @@ function snapshot(array, lo, mid, hi, found = false) {
         let color = '#000';
 
         if (i === lo && i === mid && i === hi) {
-            label = 'lo/mid/hi';
+            label = 'Low<br>Mid<br>High';
             color = '#e5e7eb';
         } else if (i === lo && i === mid) {
-            label = 'lo/mid';
+            label = 'Low<br>Mid';
             color = '#e5e7eb';
         } else if (i === mid && i === hi) {
-            label = 'mid/hi';
+            label = 'Mid<br>High';
             color = '#e5e7eb';
         } else if (i === lo) {
-            label = 'lo';
+            label = 'Low';
             color = '#e5e7eb';
         } else if (i === mid) {
-            label = 'mid';
+            label = 'Mid';
             color = '#e5e7eb';
         } else if (i === hi) {
-            label = 'hi';
+            label = 'High';
             color = '#e5e7eb';
         }
 
