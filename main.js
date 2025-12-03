@@ -340,11 +340,9 @@ function binarySearchWrapper() {
     }
 }
 
-
-
 // =============== Merge Sort ===============
 
-// snapshotMS: simple snapshot for merge sort
+// snapshotMS: imple snapshot for merge sort
 var snapMS = "";
 function snapshotMS(arrays, step = "") {
     const cellWidth = 45;
@@ -355,16 +353,16 @@ function snapshotMS(arrays, step = "") {
 
     // step description
     if (step) {
-        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#FFFFFF; font-weight:bold;">${step}</div>`;
+        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#fffff; font-weight:bold;">${step}</div>`;
     }
 
     // container
     snapMS += `<div style="display:flex; justify-content:center; gap:30px; align-items:flex-start;">`;
-
+    
     arrays.forEach((array, index) => {
         if (array.length > 0) { // Only show non-empty arrays
             snapMS += `<div style="display:flex; flex-direction:column; align-items:center;">`;
-
+            
             // Array label (Left/Right)
             if (arrays.length > 1) {
                 const label = index === 0 ? "Left" : "Right";
@@ -396,33 +394,21 @@ function snapshotMS(arrays, step = "") {
                 `;
             });
             snapMS += `</div>`;
-
-            // label BELOW array showing its contents in brackets
-            snapMS += `
-                <div style="
-                    margin-top:8px;
-                    font-size:13px;
-                    font-family:Arial, sans-serif;
-                    color:#FFFFFF;
-                ">
-                    [${array.join(", ")}]
-                </div>
-            `;
-
+            snapMS += `</div>`;
             snapMS += `</div>`;
         }
     });
-
+    
     snapMS += `</div>`;
     snapMS += `</div>`;
 }
 
-// ================= MERGE FUNCTION =================
+// merge
 function merge(left, right) {
     let result = [];
     let i = 0, j = 0;
-
-    // merging
+    
+    // merging 
     while (i < left.length && j < right.length) {
         if (left[i] <= right[j]) {
             result.push(left[i]);
@@ -432,8 +418,8 @@ function merge(left, right) {
             j++;
         }
     }
-
-    // rest of the elements (one of these is empty)
+    
+    // add remaining elements
     while (i < left.length) {
         result.push(left[i]);
         i++;
@@ -442,14 +428,13 @@ function merge(left, right) {
         result.push(right[j]);
         j++;
     }
-
+    
     return result;
 }
 
-// ================= MERGE SORT =================
+// mergeSort
 function mergeSort(array) {
     if (array.length <= 1) {
-        snapshotMS([array], "Base case: single-element or empty array");
         return array;
     }
 
@@ -457,22 +442,27 @@ function mergeSort(array) {
     const left = array.slice(0, mid);
     const right = array.slice(mid);
 
-    snapshotMS([left, right], "Splitting the array into Left and Right");
+    // show division
+    snapshotMS([left, right], `Dividing into halves:`);
 
-    const sortedLeft = mergeSort(left);
-    const sortedRight = mergeSort(right);
+    // recursively sort left and right
+    const left_sorted = mergeSort(left);
+    const right_sorted = mergeSort(right);
 
-    const merged = merge(sortedLeft, sortedRight);
-    snapshotMS([sortedLeft, sortedRight], "Merging the sorted halves");
-
+    // merge the sorted halves
+    const merged = merge(left_sorted, right_sorted);
+    
+    // show merged result
+    snapshotMS([merged], `Merged result:`);
+    snapMS += `<div style="height:15px; border-bottom:1px solid #ccc; margin:10px 0;"></div>`; // Separator
+    
     return merged;
 }
 
-// ================= MERGE SORT WRAPPER =================
-function mergeSortWrapper() {
+function mergeSortWrapper(){
     const array_string = document.getElementById('array').value.split(',').map(str => str.trim());
 
-    // Check if all array elements are integers
+    // check if all array elements are integers
     const arrayIntegers = array_string.every(item => /^-?\d+$/.test(item));
     if (!arrayIntegers) {
         document.getElementById('result').innerHTML = `
@@ -491,24 +481,25 @@ function mergeSortWrapper() {
         return;
     }
 
-    // Convert array to actual integers
+    // convert array to actual integers
     const array = array_string.map(Number);
 
-    // reset the snapshot string
-    snapMS = "";
-
-    // show the original array
-    snapshotMS([array], "Original array");
-
-    // run merge sort
+    
+    
+    // show initial array
+    snapMS += `<div style="text-align:center; margin-bottom:20px;">`;
+    snapMS += `<div style="font-size:18px; font-weight:bold; margin-bottom:10px;">Original Array:</div>`;
+    snapshotMS([array]);
+    snapMS += `<div style="height:20px; border-bottom:2px solid #999; margin:20px 0;"></div>`;
+    snapMS += `</div>`;
+    
     const sortedArray = mergeSort(array);
-
+    
     // show final sorted array
     snapMS += `<div style="text-align:center; margin-top:30px;">`;
     snapMS += `<div style="font-size:20px; font-weight:bold; margin:20px 0 10px 0; color:#2E8B57;">Final Sorted Array:</div>`;
     snapshotMS([sortedArray]);
     snapMS += `</div>`;
-
     document.getElementById('snapshot').innerHTML = snapMS;
 }
 
