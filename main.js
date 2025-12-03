@@ -368,32 +368,28 @@ function snapshotMS(arrays, step = "") {
                 const label = index === 0 ? "Left" : "Right";
                 snapMS += `<div style="font-size:14px; margin-bottom:5px; color:#9ca3af;">${label}</div>`;
             }
-
+            
             // ARRAY ROW
             snapMS += `<div style="display:flex;">`;
             array.forEach(value => {
-                const cellBg = "#111827";
-                const cellBorder = "#4b5563";
-                const cellText = "#FFFFFF";
                 snapMS += `
                     <div style="
                         width:${cellWidth}px;
                         padding:${cellPadding}px 0;
                         margin-right:${gap}px;
-                        border:2px solid ${cellBorder};
-                        border-radius:6px;
+                        border:2px solid #333;
+                        border-radius:4px;
                         text-align:center;
-                        font-size:18px;
+                        font-size:16px;
                         font-family:Arial, sans-serif;
-                        background-color:${cellBg};
-                        color:${cellText};
-                        box-sizing:border-box;
+                        background-color:#111827;
+                        color:#FFFFFF
+                        font-weight:bold;
                     ">
                         ${value}
                     </div>
                 `;
             });
-            snapMS += `</div>`;
             snapMS += `</div>`;
             snapMS += `</div>`;
         }
