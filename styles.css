@@ -1,5 +1,5 @@
 .code-line.highlight {
-  color: #ffeb3b;  /* or whatever highlight color */
+  color: #ffeb3b;
 }
 
 input[type="range"] {
@@ -111,9 +111,6 @@ input[type=text], input[type=number] {
   color: #e5e7eb;
 }
 
-/* Remove the .code-line.active styles since we don't need highlighting */
-
-/* Page styling*/
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -121,20 +118,17 @@ body {
     color: #f9fafb;
 }
 
-/* Main container that centers the content and limits its width */
 .page {
     max-width: 900px;
     margin: 0 auto;
     padding: 16px;
 }
 
-/* Title and tagline at the top */
 h1 {
     font-size: 28px;
     margin-bottom: 4px;
 }
 
-/* General section box: background, spacing, rounded corners */
 .section {
     background-color: #111827;
     padding: 16px;
@@ -142,7 +136,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* Headers inside sections */
 .section h2 {
     margin-top: 0;
     margin-bottom: 8px;
@@ -152,12 +145,10 @@ h1 {
     margin-bottom: 6px;
 }
 
-/* Bullet list spacing */
 .section ul {
     padding-left: 20px;
 }
 
-/* Image styles */
 .algo-image {
     max-width: 100%;
     height: auto;
@@ -165,7 +156,6 @@ h1 {
     border: 1px solid #374151;
 }
 
-/* Simple green button */
 .btn {
     margin-top: 10px;
     padding: 8px 16px;
@@ -177,7 +167,83 @@ h1 {
     cursor: pointer;
 }
 
-/* Slightly darker on hover */
 .btn:hover {
     background-color: #16a34a;
+}
+
+.merge-step {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.step-title {
+    font-size: 18px;
+    font-family: "Fira Code", Consolas, monospace;
+    margin-bottom: 15px;
+    color: #00BFB2;
+    font-weight: bold;
+}
+
+.arrays-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 80px;
+}
+
+.array-box {
+    display: flex;
+    align-items: center;
+    border: 2px solid #00BFB2;
+    border-radius: 8px;
+    padding: 8px 15px;
+    background-color: #111827;
+    min-height: 60px;
+    gap: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.array-element {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00BFB2;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: "Fira Code", Consolas, monospace;
+    background-color: #1a1a2e;
+    color: #FFFFFF;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.step-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00BFB2, transparent);
+    margin: 25px 0;
+    border-radius: 1px;
+}
+
+.final-result {
+    color: #00BFB2;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #111827;
+    border-radius: 8px;
+    border: 2px solid #00BFB2;
+    font-family: "Fira Code", Consolas, monospace;
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 10px;
+    font-family: "Fira Code", Consolas, monospace;
 }

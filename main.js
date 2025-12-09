@@ -413,7 +413,7 @@ console.log(snapshots[index][0]);
   if (final_msg.includes("Search Left")) {
     highlightCodeLine(17);
   }
-  if (final_msg.includes("Search Range empty")) {
+  if (final_msg.includes("Search Range Empty")) {
     highlightCodeLine(4);
 }
   if (final_msg.includes("==")) {
@@ -441,60 +441,33 @@ function highlightCodeLine(lineNumbers) {
 
 // =============== Merge Sort ===============
 
+// Global snapshot variable
+var snapMS = "";
+
 /*
     Snapshot method for Merge Sort visualization.
-    Each snapshot is appended to the global snapMS string as an HTML block.
+    Shows multiple arrays as separate groups without brackets
 */
-var snapMS = "";
-function snapshotMS(arrays, step = "") {
-    const cellWidth = 45;
-    const cellPadding = 6;
-    const gap = 2;
+function snapshotMS(arrays) {
+    snapMS += `<div class="merge-step">`;
 
-    snapMS += `<div style="margin-bottom:20px; text-align:center;">`;
-
-    // step description
-    if (step) {
-        snapMS += `<div style="font-size:16px; font-family:Arial, sans-serif; margin-bottom:10px; color:#ffffff; font-weight:bold;">${step}</div>`;
-    }
-
-    // container
-    snapMS += `<div style="display:flex; justify-content:center; gap:30px; align-items:flex-start;">`;
+    // container for all array boxes
+    snapMS += `<div class="arrays-container">`;
     
-    arrays.forEach((array, index) => {
-        if (array.length > 0) { // Only show non-empty arrays
-            snapMS += `<div style="display:flex; flex-direction:column; align-items:center;">`;
-            
-            // Array label (Left/Right)
-            if (arrays.length > 1) {
-                const label = index === 0 ? "Left" : "Right";
-                snapMS += `<div style="font-size:14px; margin-bottom:5px; color:#9ca3af;">${label}</div>`;
-            }
-            
-            // ARRAY ROW
-            snapMS += `<div style="display:flex;">`;
-            array.forEach(value => {
-                snapMS += `
-                    <div style="
-                        width:${cellWidth}px;
-                        padding:${cellPadding}px 0;
-                        margin-right:${gap}px;
-                        border:2px solid #333;
-                        border-radius:4px;
-                        text-align:center;
-                        font-size:16px;
-                        font-family:Arial, sans-serif;
-                        background-color:#111827;
-                        color:#FFFFFF;
-                        font-weight:bold;
-                    ">
-                        ${value}
-                    </div>
-                `;
-            });
-            snapMS += `</div>`;
-            snapMS += `</div>`;
-        }
+    arrays.forEach((array) => {
+        // Individual array box
+        snapMS += `<div class="array-box">`;
+        
+        // Elements inside the array
+        array.forEach((value) => {
+            snapMS += `
+                <div class="array-element">
+                    ${value}
+                </div>
+            `;
+        });
+        
+        snapMS += `</div>`;
     });
     
     snapMS += `</div>`;
@@ -502,13 +475,13 @@ function snapshotMS(arrays, step = "") {
 }
 
 /*
-    Merge function to combine two sorted arrays into one sorted array.
+    Merge function
 */
 function merge(left, right) {
     let result = [];
     let i = 0, j = 0;
     
-    // merging 
+    // Merge elements from left and right arrays
     while (i < left.length && j < right.length) {
         if (left[i] <= right[j]) {
             result.push(left[i]);
@@ -519,7 +492,7 @@ function merge(left, right) {
         }
     }
     
-    // add remaining elements
+    // Append remaining elements
     while (i < left.length) {
         result.push(left[i]);
         i++;
@@ -533,44 +506,98 @@ function merge(left, right) {
 }
 
 /*
-    Merge Sort function with snapshots.
+    merge sort visualization with proper step-by-step splitting
 */
-function mergeSort(array) {
-    if (array.length <= 1) {
-        return array;
+function mergeSortVisual(arr) {
+    snapMS = "";
+    
+    // Step 1: Original array
+    snapshotMS([arr]);
+    snapMS += `<div class="step-divider"></div>`;
+    
+    // Show initial split if array has more than 1 element
+    if (arr.length > 1) {
+        const mid = Math.floor(arr.length / 2);
+        const left = arr.slice(0, mid);
+        const right = arr.slice(mid);
+        snapshotMS([left, right]);
+        snapMS += `<div class="step-divider"></div>`;
+        
+        // Start with the split arrays
+        let currentLevel = [left, right];
+        
+        // Keep splitting until all arrays are length 1
+        while (currentLevel.some(array => array.length > 1)) {
+            const nextLevel = [];
+            let hasSplitThisLevel = false;
+            
+            for (const array of currentLevel) {
+                if (array.length > 1) {
+                    // Split this array
+                    const mid = Math.floor(array.length / 2);
+                    nextLevel.push(array.slice(0, mid), array.slice(mid));
+                    hasSplitThisLevel = true;
+                } else {
+                    // Keep single elements
+                    nextLevel.push(array);
+                }
+            }
+            
+            // Only show the level if a split actually occurred
+            if (hasSplitThisLevel) {
+                snapshotMS(nextLevel);
+                snapMS += `<div class="step-divider"></div>`;
+            }
+            
+            currentLevel = nextLevel;
+        }
+        
+        // Now do merges (bottom-up)
+        let currentArrays = currentLevel;
+        
+        while (currentArrays.length > 1) {
+            const nextArrays = [];
+            
+            // Merge adjacent pairs
+            for (let i = 0; i < currentArrays.length; i += 2) {
+                if (i + 1 < currentArrays.length) {
+                    nextArrays.push(merge(currentArrays[i], currentArrays[i + 1]));
+                } else {
+                    nextArrays.push(currentArrays[i]);
+                }
+            }
+            
+            snapshotMS(nextArrays);
+            snapMS += `<div class="step-divider"></div>`;
+            currentArrays = nextArrays;
+        }
+        
+        return currentArrays[0];
+    } else {
+        // Array is already sorted
+        return arr;
     }
-
-    const mid = Math.floor(array.length / 2);
-    const left = array.slice(0, mid);
-    const right = array.slice(mid);
-
-    // show division
-    snapshotMS([left, right], `Dividing into halves:`);
-
-    // recursively sort left and right
-    const left_sorted = mergeSort(left);
-    const right_sorted = mergeSort(right);
-
-    // merge the sorted halves
-    const merged = merge(left_sorted, right_sorted);
-    
-    // show merged result
-    snapshotMS([merged], `Merged result:`);
-    snapMS += `<div style="height:15px; border-bottom:1px solid #ccc; margin:10px 0;"></div>`; // Separator
-    
-    return merged;
 }
 
 /*
-    Wrapper function:
-        the main merge sort function that handles input validation,
-        resets snapshots, and initiates the sort and timeline rendering.
+    Wrapper function for Merge Sort visualization
+    Acts as the main entry point for handling input and displaying results
 */
-function mergeSortWrapper(){
-    const array_string = document.getElementById('array').value.split(',').map(str => str.trim());
-
-    // check if all array elements are integers
+function mergeSortWrapper() {
+    // Clear previous results
+    document.getElementById('result').innerHTML = "";
+    document.getElementById('snapshot').innerHTML = "";
+    
+    const input = document.getElementById('array').value.trim();
+    if (!input) {
+        alert("Please enter an array");
+        return;
+    }
+    
+    const array_string = input.split(',').map(str => str.trim());
     const arrayIntegers = array_string.every(item => /^-?\d+$/.test(item));
+    
+    // check for integer validity
     if (!arrayIntegers) {
         document.getElementById('result').innerHTML = `
             <div style="
@@ -583,30 +610,12 @@ function mergeSortWrapper(){
                 Error: Array must contain only integers, separated by commas.
             </div>
         `;
-        document.getElementById('snapshot').innerHTML = "";
-        snapMS = "";
         return;
     }
-
-    // convert array to actual integers
+    
     const array = array_string.map(Number);
-
+    const sortedArray = mergeSortVisual(array);
     
-    
-    // show initial array
-    snapMS += `<div style="text-align:center; margin-bottom:20px;">`;
-    snapMS += `<div style="font-size:18px; font-weight:bold; margin-bottom:10px;">Original Array:</div>`;
-    snapshotMS([array]);
-    snapMS += `<div style="height:20px; border-bottom:2px solid #999; margin:20px 0;"></div>`;
-    snapMS += `</div>`;
-    
-    const sortedArray = mergeSort(array);
-    
-    // show final sorted array
-    snapMS += `<div style="text-align:center; margin-top:30px;">`;
-    snapMS += `<div style="font-size:20px; font-weight:bold; margin:20px 0 10px 0; color:#2E8B57;">Final Sorted Array:</div>`;
-    snapshotMS([sortedArray]);
-    snapMS += `</div>`;
     document.getElementById('snapshot').innerHTML = snapMS;
 }
 
